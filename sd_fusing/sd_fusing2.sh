@@ -7,7 +7,7 @@
 # published by the Free Software Foundation.
 #
 ####################################
-reader_type1="/dev/sdb"
+reader_type1="/dev/sdc"
 reader_type2="/dev/mmcblk0"
 
 if [ -z $1 ]
@@ -18,7 +18,7 @@ fi
 
 if [ $1 = $reader_type1 ]
 then 
-    partition1="$11"
+    partition1="$1"
     partition2="$12"
     partition3="$13"
     partition4="$14"

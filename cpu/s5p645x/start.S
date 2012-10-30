@@ -34,12 +34,21 @@
 #endif
 #include <regs.h>
 
+#define  CONFIG_WAT10_LED	
+
 #ifndef CONFIG_ENABLE_MMU
 #ifndef CFG_PHY_UBOOT_BASE
 #define CFG_PHY_UBOOT_BASE	CFG_UBOOT_BASE
 #endif
 #endif
 
+#if defined(CONFIG_WAT10_LED)
+#define ELFIN_GPIO_BASE		0xE0308140
+/*#define GPK_BASE_OFFSET		0x8140*/
+#define GPKCON_OFFSET		0x00
+#define GPKDAT_OFFSET		0x04
+#define GPKPUD_OFFSET		0x08
+#endif	
 /*
  *************************************************************************
  *
@@ -205,6 +214,21 @@ cpu_init_crit:
 	bic	r2, r2, r0		/* r0 <- current base addr of code */
 	cmp	r1, r2                  /* compare r0, r1                  */
 
+#if defined(CONFIG_WAT10_LED)
+/* if relocate the u-boot code, LED will on.*/
+	ldr	r1, =ELFIN_GPIO_BASE
+/*	add	r1, r1, #GPK_BASE_OFFSET*/
+
+	ldr     r2, [r1,#GPKCON_OFFSET]
+	and	r2, r2,	#0xfffffff0
+	orr	r2, r2, #1
+	str	r2, [r1,#GPKCON_OFFSET]
+
+	ldr	r2, [r1, #GPKDAT_OFFSET]
+	and	r2, r2, #0xfffffffe
+	str	r2, [r1, #GPKDAT_OFFSET]
+#endif
+	
 #if !defined(CONFIG_S3C6400)
 	moveq	r3, #0xf		/* r0 == r1 then skip flash copy   */
 	bl	load_bl2_irom
