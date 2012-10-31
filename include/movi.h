@@ -143,10 +143,6 @@ extern struct movi_offset_t ofsinfo;
 
 #define MOVI_TOTAL_BLKCNT       *((volatile unsigned int*)(SDMMC_BLK_SIZE))
 
-#define MOVI_XXX   *(SDMMC-rty)
-#ifndef SDMMC_BLK_SIZE
-#error here
-#endif
 #if defined(CONFIG_SECURE) || defined(CONFIG_FUSED)
 #define FWBL1_SIZE		(4* 1024)
 #endif
