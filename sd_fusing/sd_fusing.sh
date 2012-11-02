@@ -18,10 +18,10 @@ fi
 
 if [ $1 = $reader_type1 ]
 then 
-    partition1="$11"
-    partition2="$12"
-    partition3="$13"
-    partition4="$14"
+    partition1="$1"1
+    partition2="$1"2
+    partition3="$1"3
+    partition4="$1"4
 
 elif [ $1 = $reader_type2 ]
 then 
@@ -59,6 +59,7 @@ umount $partition3 2> /dev/null
 umount $partition4 2> /dev/null
 
 echo "mkfs.vfat -F 32 $partition1"
+echo $partition1
 mkfs.vfat -F 32 $partition1
 
 #echo "mkfs.ext2 $partition2"

@@ -18,7 +18,7 @@ fi
 
 if [ $1 = $reader_type1 ]
 then 
-    partition1="$1"
+    partition1="$11"
     partition2="$12"
     partition3="$13"
     partition4="$14"
