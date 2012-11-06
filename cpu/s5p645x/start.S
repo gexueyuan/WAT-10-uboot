@@ -34,7 +34,7 @@
 #endif
 #include <regs.h>
 
-/*#define  CONFIG_WAT10_LED*/	
+#define  CONFIG_WAT10_LED	
 
 #ifndef CONFIG_ENABLE_MMU
 #ifndef CFG_PHY_UBOOT_BASE
@@ -204,16 +204,7 @@ cpu_init_crit:
 	
 	bl	lowlevel_init	/* go setup pll,mux,memory */
 
-	/* when we already run in ram, we don't need to relocate U-Boot.
-	 * and actually, memory controller must be configured before U-Boot
-	 * is running in ram.
-	 */
-	ldr	r0, =0xff000fff
-	bic	r1, pc, r0		/* r0 <- current base addr of code */
-	ldr	r2, _TEXT_PHY_BASE	/* r1 <- original base addr in ram */
-	bic	r2, r2, r0		/* r0 <- current base addr of code */
-	cmp	r1, r2                  /* compare r0, r1                  */
-
+	
 #if defined(CONFIG_WAT10_LED)
 /* if relocate the u-boot code, LED will on.*/
 	ldr	r1, =ELFIN_GPIO_BASE
@@ -228,6 +219,17 @@ cpu_init_crit:
 	and	r2, r2, #0xfffffffe
 	str	r2, [r1, #GPKDAT_OFFSET]
 #endif
+	/* when we already run in ram, we don't need to relocate U-Boot.
+	 * and actually, memory controller must be configured before U-Boot
+	 * is running in ram.
+	 */
+	ldr	r0, =0xff000fff
+	bic	r1, pc, r0		/* r0 <- current base addr of code */
+	ldr	r2, _TEXT_PHY_BASE	/* r1 <- original base addr in ram */
+	bic	r2, r2, r0		/* r0 <- current base addr of code */
+	cmp	r1, r2                  /* compare r0, r1                  */
+
+
 	
 #if !defined(CONFIG_S3C6400)
 	moveq	r3, #0xf		/* r0 == r1 then skip flash copy   */
