@@ -34,7 +34,7 @@
 #endif
 #include <regs.h>
 
-#define  CONFIG_WAT10_LED	
+/*#define  CONFIG_WAT10_LED*/	
 
 #ifndef CONFIG_ENABLE_MMU
 #ifndef CFG_PHY_UBOOT_BASE

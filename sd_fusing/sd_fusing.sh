@@ -83,7 +83,7 @@ mkfs.vfat -F 32 $partition1
 bl1_position=1
 uboot_position=65
 echo "BL1 fusing"
-./mkbl1 ../u-boot.bin SD-bl1-8k.bin 16384
+./mkbl1 ../u-boot.bin SD-bl1-8k.bin 8192
 echo "mkbl1 complete"
 echo "begain bl1 fusing"
 dd iflag=dsync oflag=dsync if=SD-bl1-8k.bin of=$1 bs=512 seek=$bl1_position

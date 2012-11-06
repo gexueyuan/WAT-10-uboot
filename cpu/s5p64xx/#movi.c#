@@ -54,7 +54,7 @@ void movi_write_bl1(ulong addr)
 	ulong tmp;
 
 	src = addr;
-#error here	
+	
 	for(i = 0, checksum = 0;i < SS_SIZE - 4;i++)
 	{
 		checksum += *(u8*)addr++;
