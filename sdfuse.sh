@@ -7,7 +7,7 @@ bl1_position=1
 uboot_position=65
 
 echo "BL1 fusing"
-./sd_fusing/mkbl1 ./u-boot.bin SD-bl1-8k.bin 8192
+./sd_fusing/6450mkbl1 ./u-boot.bin SD-bl1-8k.bin 14336
 dd iflag=dsync oflag=dsync if=SD-bl1-8k.bin of=$reader_type1 seek=$bl1_position
 rm SD-bl1-8k.bin
 

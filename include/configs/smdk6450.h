@@ -462,7 +462,7 @@
    Select a needed channel :
    It's recommanded to select only one channel to use 'movi' command
 */
-#define USE_MMC0
+//#define USE_MMC0
 #define USE_MMC1
 
 #define  MMC_BOOT_DEVICE 	1

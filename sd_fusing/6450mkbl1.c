@@ -66,13 +66,19 @@ int main (int argc, char *argv[])
 	fclose(fp);
 
 //////////////////////////////////////////////////////////////
+    /*
 	a = Buf + 16;
 	for(i = 0, checksum = 0; i < BufLen - 16; i++)
 		checksum += (0x000000FF) & *a++;
 
 	a = Buf + 8;	
 	*( (unsigned int *)a ) = checksum;
-
+    */
+    a = Buf;
+  	for(i = 0, checksum = 0; i < (14 * 1024) - 4; i++)
+      checksum += (0x000000FF) & *a++;
+    
+    *( (unsigned int *)a ) = checksum;
 //////////////////////////////////////////////////////////////
 	fp = fopen(argv[2], "wb");
 	if (fp == NULL)
