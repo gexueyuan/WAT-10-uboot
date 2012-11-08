@@ -497,7 +497,5 @@
 #define CFG_FASTBOOT_SDFUSE_MMCDEV      1
 #endif
 
-
-
 #endif	/* __CONFIG_H */
 

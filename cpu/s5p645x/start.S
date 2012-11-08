@@ -42,13 +42,15 @@
 #endif
 #endif
 
+
 #if defined(CONFIG_WAT10_LED)
 #define ELFIN_GPIO_BASE		0xE0308140
-/*#define GPK_BASE_OFFSET		0x8140*/
 #define GPKCON_OFFSET		0x00
 #define GPKDAT_OFFSET		0x04
 #define GPKPUD_OFFSET		0x08
-#endif	
+#endif
+
+	
 /*
  *************************************************************************
  *
@@ -205,20 +207,7 @@ cpu_init_crit:
 	bl	lowlevel_init	/* go setup pll,mux,memory */
 
 	
-#if defined(CONFIG_WAT10_LED)
-/* if relocate the u-boot code, LED will on.*/
-	ldr	r1, =ELFIN_GPIO_BASE
-/*	add	r1, r1, #GPK_BASE_OFFSET*/
 
-	ldr     r2, [r1,#GPKCON_OFFSET]
-	and	r2, r2,	#0xfffffff0
-	orr	r2, r2, #1
-	str	r2, [r1,#GPKCON_OFFSET]
-
-	ldr	r2, [r1, #GPKDAT_OFFSET]
-	and	r2, r2, #0xfffffffe
-	str	r2, [r1, #GPKDAT_OFFSET]
-#endif
 	/* when we already run in ram, we don't need to relocate U-Boot.
 	 * and actually, memory controller must be configured before U-Boot
 	 * is running in ram.
@@ -243,6 +232,20 @@ cpu_init_crit:
 after_copy:
 #ifdef CONFIG_ENABLE_MMU
 enable_mmu:
+
+#if defined(CONFIG_WAT10_LED)
+	
+	ldr	r0, =ELFIN_GPIO_BASE
+        ldr     r1, =0x00000100
+	str     r1, [r0,#GPKCON_OFFSET]
+	
+	ldr	r1, =0x00000165
+	str	r1, [r0,#GPKPUD_OFFSET]
+	
+	ldr	r1, =0x00000004
+	str	r1, [r0, #GPKDAT_OFFSET]
+	
+#endif
 	/* enable domain access */
 	ldr	r5, =0x0000ffff
 	mcr	p15, 0, r5, c3, c0, 0		@ load domain access register
@@ -293,6 +296,20 @@ clbss_l:
 	cmp	r0, r1
 	ble	clbss_l
 
+#if defined(CONFIG_WAT10_LED)
+	
+	ldr	r0, =ELFIN_GPIO_BASE
+        ldr     r1, =0x00000100
+	str     r1, [r0,#GPKCON_OFFSET]
+	
+	ldr	r1, =0x00000165
+	str	r1, [r0,#GPKPUD_OFFSET]
+	
+	ldr	r1, =0x00000004
+	str	r1, [r0, #GPKDAT_OFFSET]
+	
+#endif
+	
 	ldr	pc, _start_armboot
 
 _start_armboot:

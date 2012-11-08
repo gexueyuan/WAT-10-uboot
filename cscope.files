@@ -3742,6 +3742,7 @@ post/lib_ppc/two.c
 post/lib_ppc/twox.c
 post/post.c
 post/tests.c
+sd_fusing/6450mkbl1.c
 sd_fusing/C110-EVT1-mkbl1.c
 sd_fusing/sd_fdisk.c
 tools/bmp_logo.c
