@@ -116,7 +116,7 @@ lowlevel_init:
 #if 1
         ldr     r0, =(ELFIN_CLOCK_POWER_BASE+RST_STAT_OFFSET)
         ldr     r1, [r0]
-		bic     r1, r1, #0xfffffff7
+	bic     r1, r1, #0xfffffff7
         cmp     r1, #0x8
         beq     wakeup_reset
 
@@ -309,10 +309,12 @@ uart_asm_init:
 	ldr     r1, =0x245                      /* UARTCLK SRC = x0 => PCLK */
         str     r1, [r0, #UCON_OFFSET]
 	
-	ldr     r1, =0x22
+/*	ldr     r1, =0x22*/
+	ldr	r1, =0x17
         str     r1, [r0, #UBRDIV_OFFSET]
 
-        ldr     r1, =0xDDDD
+	;;ldr     r1, =0xDDDD
+	ldr	r1, =0x0808
 
         str     r1, [r0, #UDIVSLOT_OFFSET]
 
