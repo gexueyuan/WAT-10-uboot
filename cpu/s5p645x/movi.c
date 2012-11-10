@@ -14,7 +14,7 @@ typedef u32 (*copy_sd_mmc_to_mem) \
 
 void movi_bl2_copy(void)
 {
-	copy_sd_mmc_to_mem copy_bl2 = (copy_sd_mmc_to_mem)(0x00001908);
+  copy_sd_mmc_to_mem copy_bl2 = (copy_sd_mmc_to_mem)(0x00002360);
 
 	copy_bl2(MOVI_BL2_POS, MOVI_BL2_BLKCNT, CFG_PHY_UBOOT_BASE);
 }

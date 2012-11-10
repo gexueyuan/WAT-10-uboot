@@ -43,13 +43,6 @@
 #endif
 
 
-#if defined(CONFIG_WAT10_LED)
-#define ELFIN_GPIO_BASE		0xE0308140
-#define GPKCON_OFFSET		0x00
-#define GPKDAT_OFFSET		0x04
-#define GPKPUD_OFFSET		0x08
-#endif
-
 	
 /*
  *************************************************************************
@@ -233,19 +226,6 @@ after_copy:
 #ifdef CONFIG_ENABLE_MMU
 enable_mmu:
 
-#if defined(CONFIG_WAT10_LED)
-	
-	ldr	r0, =ELFIN_GPIO_BASE
-        ldr     r1, =0x00000100
-	str     r1, [r0,#GPKCON_OFFSET]
-	
-	ldr	r1, =0x00000165
-	str	r1, [r0,#GPKPUD_OFFSET]
-	
-	ldr	r1, =0x00000004
-	str	r1, [r0, #GPKDAT_OFFSET]
-	
-#endif
 	/* enable domain access */
 	ldr	r5, =0x0000ffff
 	mcr	p15, 0, r5, c3, c0, 0		@ load domain access register
@@ -296,20 +276,17 @@ clbss_l:
 	cmp	r0, r1
 	ble	clbss_l
 
-#if defined(CONFIG_WAT10_LED)
-	
-	ldr	r0, =ELFIN_GPIO_BASE
+/********************************************/	
+	ldr	r0, =0xE0308140
         ldr     r1, =0x00000100
-	str     r1, [r0,#GPKCON_OFFSET]
+	str     r1, [r0,#0]
 	
 	ldr	r1, =0x00000165
-	str	r1, [r0,#GPKPUD_OFFSET]
+	str	r1, [r0,#0x08]
 	
 	ldr	r1, =0x00000004
-	str	r1, [r0, #GPKDAT_OFFSET]
-	
-#endif
-	
+	str	r1, [r0, #0x04]
+/*********************************************/	
 	ldr	pc, _start_armboot
 
 _start_armboot:

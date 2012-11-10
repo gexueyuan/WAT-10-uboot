@@ -99,15 +99,7 @@ movinand:
 	
 	bl	movi_bl2_copy
 	
-	ldr	r0, =0xE0308140
-        ldr     r1, =0x00000100
-	str     r1, [r0,#0]
-	
-	ldr	r1, =0x00000165
-	str	r1, [r0,#0x08]
-	
-	ldr	r1, =0x00000004
-	str	r1, [r0, #0x04]
+
 	
 	b	after_copy
 
