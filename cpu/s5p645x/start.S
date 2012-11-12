@@ -34,7 +34,7 @@
 #endif
 #include <regs.h>
 
-#define  CONFIG_WAT10_LED	
+//#define  CONFIG_WAT10_LED	
 
 #ifndef CONFIG_ENABLE_MMU
 #ifndef CFG_PHY_UBOOT_BASE
@@ -276,7 +276,7 @@ clbss_l:
 	cmp	r0, r1
 	ble	clbss_l
 
-/********************************************/	
+/********************************************	
 	ldr	r0, =0xE0308140
         ldr     r1, =0x00000100
 	str     r1, [r0,#0]
@@ -286,7 +286,7 @@ clbss_l:
 	
 	ldr	r1, =0x00000004
 	str	r1, [r0, #0x04]
-/*********************************************/	
+*********************************************/	
 	ldr	pc, _start_armboot
 
 _start_armboot:
