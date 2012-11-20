@@ -230,7 +230,7 @@
  * Miscellaneous configurable options
  */
 #define CFG_LONGHELP				/* undef to save memory		*/
-#define CFG_PROMPT		"SMDK6450 # "	/* Monitor Command Prompt	*/
+#define CFG_PROMPT		"WAT89EC-10 # "	/* Monitor Command Prompt	*/
 #define CFG_CBSIZE		256		/* Console I/O Buffer Size	*/
 #define CFG_PBSIZE		384		/* Print Buffer Size */
 #define CFG_MAXARGS		16		/* max number of command args	*/
@@ -418,7 +418,7 @@
  * SMDK6400 board specific data
  */
 
-#define CONFIG_IDENT_STRING	"for SMDK6450"
+#define CONFIG_IDENT_STRING	"for WAT89EC-10"
 
 /* total memory required by uboot */
 #define CFG_UBOOT_SIZE		(2*1024*1024)
