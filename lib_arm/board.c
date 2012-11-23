@@ -542,10 +542,10 @@ void start_armboot (void)
 #endif /* CONFIG_SMDK6440 */
 
 #if defined(CONFIG_SMDK6450)
-	#if 0 //defined(CONFIG_MMC)
+#if 0//defined(CONFIG_MMC)
 	if (INF_REG3_REG == 1) {	/* eMMC_4.3 */
 		puts("eMMC:    ");
-		movi_ch = 1;
+		movi_ch = 2;
 		movi_emmc = 1;
 
 		movi_init();
@@ -575,14 +575,15 @@ void start_armboot (void)
 		puts ("0 MB\n");	
 	}
 	#endif
-
+/*
 	if (INF_REG3_REG == 2) {
-			/* N/A */
+		   
 	} else {
 		puts("NAND:    ");
 		nand_init();
 		//setenv("bootcmd", "nand read c0008000 80000 380000;bootm c0008000");
 	}
+        */
 #endif /* CONFIG_SMDK6440 */
 
 #if defined(CONFIG_SMDK6430)
