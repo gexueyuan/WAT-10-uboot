@@ -63,7 +63,7 @@ int board_init(void)
 {
 	DECLARE_GLOBAL_DATA_PTR;
 
-	dm9000_pre_init();
+	//dm9000_pre_init();
 
 	gd->bd->bi_arch_number = MACH_TYPE;
 	gd->bd->bi_boot_params = (PHYS_SDRAM_1+0x100);
@@ -134,7 +134,7 @@ int board_late_init (void)
 #ifdef CONFIG_DISPLAY_BOARDINFO
 int checkboard(void)
 {
-	printf("Board:   SMDK6450\n");
+	printf("Board:   WAT89EC-10\n");
 	return (0);
 }
 #endif

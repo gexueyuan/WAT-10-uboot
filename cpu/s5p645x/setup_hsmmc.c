@@ -97,13 +97,15 @@ void setup_hsmmc_clock(void)
 #endif
 
 #ifdef USE_MMC2
+    printf("SD/MMC:  SDMMC_CHANNEL2\n");
 	/* MMC2 clock src = SCLKMPLL */
 	tmp = CLK_SRC0_REG & ~(0x3<<22);
 	CLK_SRC0_REG = tmp | (0x1<<22);
 
 	/* MMC2 clock div */
 	tmp = CLK_DIV1_REG & ~(0xf<<8);
-	clock = get_MPLL_CLK()/1000000;
+//	clock = get_MPLL_CLK()/1000000;
+    clock = get_MPLL_CLK() / (((CLK_DIV0_REG >> 4) & 1) + 1) / 1000000;
 	for(i=0; i<0xf; i++)
 	{
 		if((clock / (i+1)) <= 50) {
@@ -111,6 +113,9 @@ void setup_hsmmc_clock(void)
 			break;
 		}
 	}
+    printf("MPLL_CON_REG: %X \n", MPLL_CON_REG);
+	printf("CLK_DIV0_REG: %X \n", CLK_DIV0_REG);
+	printf("CLK_DIV1_REG: %X \n", CLK_DIV1_REG);
 #endif
 }
 
@@ -168,8 +173,10 @@ void setup_hsmmc0_cfg_gpio(void)
 
 #endif
 #ifdef USE_MMC2
+     printf("GPIO_MMC2\n");
 	/* 7 pins will be assigned - GPG0[0:6] = CLK, CMD, DAT[0:3], CDn */
-	reg = readl(GPCCON) & 0xff00ffff;
+/*
+    reg = readl(GPCCON) & 0xff00ffff;
 	writel(reg | 0x00330000, GPCCON);
 	reg = readl(GPHCON0) & 0x00ffffff;
 	writel(reg | 0x33000000, GPCCON);
@@ -181,6 +188,15 @@ void setup_hsmmc0_cfg_gpio(void)
 	writel(reg, GPCPUD);
 	reg = readl(GPCPUD) & 0xfffc0fff;
 	writel(reg, GPCPUD);
+*/
+     reg = readl(GPGCON1) & 0xff000000;
+     writel(reg | 0x00333333,GPGCON1);
+
+     reg = readl(GPGCON) & 0x0fffffff;
+     writel(reg | 0x30000000,GPGCON);
+
+     writel(reg | 0x0,GPGPUD);
+     
 #endif
 }
 

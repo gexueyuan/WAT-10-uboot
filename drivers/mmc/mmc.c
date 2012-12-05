@@ -1240,6 +1240,19 @@ int mmc_initialize(bd_t *bis)
 	}
 
 	printf("%dMB\n", (mmc->capacity/(1024*1024/mmc->read_bl_len)));
+
+ 	mmc = find_mmc_device(1);
+	if (mmc) {
+		err = mmc_init(mmc);
+		if (err)
+			err = mmc_init(mmc);
+		if (err) {	
+			printf("Card init fail!\n");
+			return err;
+		}
+	}
+
+	printf("%dMB\n", (mmc->capacity/(1024*1024/mmc->read_bl_len)));   
 	return 0;
 }
 
@@ -1349,6 +1362,43 @@ int emmc_boot_close(struct mmc *mmc)
 		return err;
 
 	return 0;
+}
+
+#endif
+
+#ifdef emmc
+int movi_set_ofs(uint last)
+{
+	int changed = 0;
+
+	if (ofsinfo.last != last) {
+		ofsinfo.last 	= last - (eFUSE_SIZE / MOVI_BLKSIZE);
+		ofsinfo.bl1	= ofsinfo.last - MOVI_BL1_BLKCNT;
+		ofsinfo.env	= ofsinfo.bl1 - MOVI_ENV_BLKCNT;
+		ofsinfo.bl2	= ofsinfo.bl1 - (MOVI_BL2_BLKCNT + MOVI_ENV_BLKCNT);
+		ofsinfo.kernel	= ofsinfo.bl2 - MOVI_ZIMAGE_BLKCNT;
+		ofsinfo.rootfs	= ofsinfo.kernel - MOVI_ROOTFS_BLKCNT;
+		changed = 1;
+	}
+
+	return changed;
+}
+
+int movi_init(void)
+{
+	int ret = 0;
+
+    hsmmc_set_gpio();
+    hsmmc_set_base();
+    hsmmc_set_clock();
+    hsmmc_reset();
+    ret = hsmmc_init();
+	if (ret) {
+		printf("\nCard Initialization failed(%d)\n", ret);
+		return -1;
+	}
+
+	return 1;
 }
 
 #endif

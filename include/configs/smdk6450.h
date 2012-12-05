@@ -464,7 +464,7 @@
 */
 //#define USE_MMC0
 #define USE_MMC1
-//#define USE_MMC2
+#define USE_MMC2
 
 #define  MMC_BOOT_DEVICE 	1
 #define  MMC_BOOT_DEVICE_STR 	"1"
