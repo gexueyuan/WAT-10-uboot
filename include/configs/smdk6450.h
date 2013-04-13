@@ -498,5 +498,6 @@
 #define CFG_FASTBOOT_SDFUSE_MMCDEV      1
 #endif
 
+#define GXYDEBUG
 #endif	/* __CONFIG_H */
 

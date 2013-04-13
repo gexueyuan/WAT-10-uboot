@@ -306,7 +306,7 @@ uart_asm_init:
 	ldr     r0, =ELFIN_UART_CONSOLE_BASE0            @0xEC800000  
 	mov     r1, #0x0
 
-	ldr     r1, =0x245                      /* UARTCLK SRC = x0 => PCLK */
+	ldr     r1, =0xa45                      /* UARTCLK SRC = x0 => PCLK */
         str     r1, [r0, #UCON_OFFSET]
 	
 /*	ldr     r1, =0x22*/

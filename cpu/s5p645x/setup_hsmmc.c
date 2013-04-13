@@ -104,8 +104,8 @@ void setup_hsmmc_clock(void)
 
 	/* MMC2 clock div */
 	tmp = CLK_DIV1_REG & ~(0xf<<8);
-//	clock = get_MPLL_CLK()/1000000;
-    clock = get_MPLL_CLK() / (((CLK_DIV0_REG >> 4) & 1) + 1) / 1000000;
+	clock = get_MPLL_CLK()/1000000;
+    // clock = get_MPLL_CLK() / (((CLK_DIV0_REG >> 4) & 1) + 1) / 1000000;
 	for(i=0; i<0xf; i++)
 	{
 		if((clock / (i+1)) <= 50) {

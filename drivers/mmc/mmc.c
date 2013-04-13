@@ -785,6 +785,10 @@ static int mmc_decode_csd(struct mmc *host)
 		break;
 	}
 
+    //#ifdef GXYDEBUG
+    //printf("VERSION is %d\n",host->version);
+    //#endif
+    
 	m = UNSTUFF_BITS(resp, 115, 4);
 	e = UNSTUFF_BITS(resp, 112, 3);
 	csd->tacc_ns	 = (tacc_exp[e] * tacc_mant[m] + 9) / 10;
@@ -893,20 +897,40 @@ static int mmc_read_ext_csd(struct mmc *host)
 	case EXT_CSD_CARD_TYPE_52 | EXT_CSD_CARD_TYPE_26:
 		host->ext_csd.hs_max_dtr = 52000000;
 		host->clock = 52000000;
+        #ifdef GXYDEBUG
+        printf("card type is %d\n",ext_csd[EXT_CSD_CARD_TYPE]);
+        #endif
 		break;
 	case EXT_CSD_CARD_TYPE_26:
 		host->ext_csd.hs_max_dtr = 26000000;
 		host->clock = 26000000;
+        #ifdef GXYDEBUG
+        printf("card type is %d\n",ext_csd[EXT_CSD_CARD_TYPE]);
+        #endif
 		break;
 	// 20100713
 	case 7:
 		host->ext_csd.hs_max_dtr = 26000000;
 		host->clock = 26000000;
+        #ifdef GXYDEBUG
+        printf("card type is %d\n",ext_csd[EXT_CSD_CARD_TYPE]);
+        #endif
+		break;
+    case 0xf:
+        host->ext_csd.hs_max_dtr = 52000000;
+		host->clock = 52000000;
+#ifdef GXYDEBUG
+        printf("card type is %d\n",ext_csd[EXT_CSD_CARD_TYPE]);
+#endif
 		break;
 	default:
 		/* MMC v4 spec says this cannot happen */
 		printf("card is mmc v4 but doesn't "
 			"support any high-speed modes.\n");
+        #ifdef GXYDEBUG
+        printf("card type is %d\n",ext_csd[EXT_CSD_CARD_TYPE]);
+        printf("card type is %d\n",ext_csd[192]);
+        #endif
 		goto out;
 	}
 
@@ -957,6 +981,10 @@ int mmc_startup(struct mmc *host)
 		return err;
 
 	memcpy(host->cid, cmd.resp, 16);
+
+    //#ifdef GXYDEBUG
+    //printf("MID is %d\n",UNSTUFF_BITS(host->cid, 56, 48));
+    //#endif
 
 	/*
 	 * For MMC cards, set the Relative Address.

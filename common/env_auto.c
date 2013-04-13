@@ -58,7 +58,7 @@ extern flash_info_t flash_info[];
 extern uchar default_environment[];
 extern int default_environment_size;
 
-char * env_name_spec = "SMDK bootable device";
+char * env_name_spec = "WAT89EC-10 bootable device";
 
 #ifdef ENV_IS_EMBEDDED
 extern uchar environment[];
@@ -269,6 +269,7 @@ int saveenv_nand_adv(void)
 	return ret;
 }
 
+
 int saveenv_movinand(void)
 {
         movi_write_env(virt_to_phys((ulong)env_ptr));
@@ -276,7 +277,27 @@ int saveenv_movinand(void)
 
         return 1;
 }
+/*
+int saveenv_movinand(void)
+{
+	ssize_t	len;
+	char	*res;
 
+	res = (char *)&env_ptr->data;
+	len = hexport('\0', &res, ENV_SIZE);
+	if (len < 0) {
+		printf("Cannot export environment");
+		return 1;
+	}
+	env_ptr->crc   = crc32(0, env_ptr->data, ENV_SIZE);
+
+	mmc_init(find_mmc_device(0));
+    movi_write_env(virt_to_phys((ulong)env_ptr));
+    puts("done\n");
+
+	return 1;
+}
+*/
 int saveenv_onenand(void)
 {
         printf("OneNAND does not support the saveenv command\n");
@@ -426,11 +447,20 @@ void env_relocate_spec_movinand(void)
 {
 #if !defined(ENV_IS_EMBEDDED)
 	uint *magic = (uint*)(PHYS_SDRAM_1);
-
+    
+	mmc_init(find_mmc_device(0));
+	//movi_read_env(virt_to_phys((ulong)env_ptr));
 	if ((0x24564236 != magic[0]) || (0x20764316 != magic[1])) {
 		movi_read_env(virt_to_phys((ulong)env_ptr));
+#ifdef GXYDEBUG
+        printf("magic is %x\n",magic[0]);
+#endif
 	}
-	
+	#ifdef GXYDEBUG
+    printf("envptr is %s\n",env_ptr->data);
+    printf("crc is %d\n",env_ptr->crc);
+    //printf("envptr is %s\n",env_ptr->);
+    #endif
 	if (crc32(0, env_ptr->data, ENV_SIZE) != env_ptr->crc)
 		return use_default();
 #endif /* ! ENV_IS_EMBEDDED */
